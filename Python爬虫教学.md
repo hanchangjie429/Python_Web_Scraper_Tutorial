@@ -178,7 +178,7 @@ finally:
 ```
 
 ### 4. 验证码识别
-
+本文只介绍验证码为字母或者中文的情况下，如何去进行处理，其他的验证手段，请查阅其他资料。
 
 ### 5. 代理ip
 
@@ -186,12 +186,9 @@ finally:
 
 
 
-
-
-
-
 ## 四. 获取数据
 beautifulsoup
+xpath
 
 ## 五. 整理数据
 pandas
@@ -206,6 +203,22 @@ mysql
 
 
 
-
+2020/8/7
+---
 今天在写爬虫的时候遇到了一个问题，就是当你爬取的数据在某个页面不存在时（比如说page1，page2，page3都有<地址>这个数据，但是page4这个数据缺省了）这个时候你该如何进行异常处理？这个问题我一会儿再来讲。
 解决方法：使用try，except进行异常处理，前提是我们的父类结点要具有相同的结构，因为只有这样，才能在某个父节点下出现缺省值的时候返回NoneType错误，这时我们就可以用try，except捕获异常了
+
+2020/8/11
+---
+今天在写mysql query的时候，我想在python环境下一次性delete多条records，但是每次写的query都显示syntax error，比如我想一次性删除id从19到29的records，我一开始写的code是：
+
+```python
+data = [i for i in range(19,30)]
+curB.executemany('delete from test_tbl where id=%s',data)
+```
+我搞不明白为什么这样会出错，一开始我以为是字符格式化的问题，后来才明白，我们使用%s的时候，需要使用元组将不同的数据用逗号隔开，像下面这样
+```python
+data = [(i,) for i in range(19,30)]
+curB.executemany('delete from test_tbl where id=%s',data)
+```
+这样就能一次性删除多条records了。[参考文章](https://pynative.com/python-mysql-delete-data/)
